@@ -24,71 +24,69 @@ const Ball = ({ scrollProgress }: BallProps) => {
   const material = useMemo(() => {
     return new THREE.MeshPhysicalMaterial({
       map: texture,
-      roughness: 0.75,
+      roughness: 0.82,
       metalness: 0.0,
-      clearcoat: 0.15,
-      clearcoatRoughness: 0.6,
-      envMapIntensity: 0.5,
+      clearcoat: 0.08,
+      clearcoatRoughness: 0.7,
+      envMapIntensity: 0.35,
       bumpMap: texture,
-      bumpScale: 0.02,
+      bumpScale: 0.015,
     });
   }, [texture]);
 
   const targetPos = useRef(new THREE.Vector3(0, 0, 0));
   const targetScale = useRef(new THREE.Vector3(1, 1, 1));
-  const targetRotY = useRef(0);
 
   const getTransform = (progress: number) => {
     const s = progress;
 
     if (s < 0.167) {
-      // Section 1: Hero - small centered ball
-      const t = s / 0.167;
+      // Section 1: Hero - centered, modest size so SPALDING text visible
       return {
-        position: [0, 0, 0] as [number, number, number],
-        scale: 1.1 + t * 0.1,
-        rotationY: t * 0.5,
+        position: [0, -0.2, 0] as [number, number, number],
+        scale: 0.9,
+        rotationY: s / 0.167 * 0.5,
         wireframe: false,
         opacity: 1,
       };
     } else if (s < 0.333) {
-      // Section 2: Elite Control - move right, moderate zoom
+      // Section 2: Elite Control - content LEFT, ball RIGHT
       const t = (s - 0.167) / 0.167;
       return {
-        position: [t * 2.5, 0, t * 1] as [number, number, number],
-        scale: 1.2 + t * 0.8,
-        rotationY: 0.5 + t * 1,
+        position: [1.8 + t * 0.5, 0, t * 0.5] as [number, number, number],
+        scale: 1.0 + t * 0.4,
+        rotationY: 0.5 + t * 1.2,
         wireframe: false,
         opacity: 1,
       };
     } else if (s < 0.5) {
-      // Section 3: Perfect Flight - move left, side view
+      // Section 3: Perfect Flight - content RIGHT, ball LEFT
       const t = (s - 0.333) / 0.167;
       return {
-        position: [2.5 - t * 5, 0, 1 - t * 0.5] as [number, number, number],
-        scale: 2.0 - t * 0.5,
-        rotationY: 1.5 + t * 1.5,
+        position: [2.3 - t * 4.6, 0, 0.5 - t * 0.3] as [number, number, number],
+        scale: 1.4 - t * 0.2,
+        rotationY: 1.7 + t * 1.5,
         wireframe: false,
         opacity: 1,
       };
     } else if (s < 0.667) {
-      // Section 4: Technical - center, wireframe
+      // Section 4: Technical - center, wireframe mode
       const t = (s - 0.5) / 0.167;
       return {
-        position: [-2.5 + t * 2.5, 0, 0.5 - t * 0.5] as [number, number, number],
-        scale: 1.5 - t * 0.2,
-        rotationY: 3 + t * 2,
-        wireframe: t > 0.3,
+        position: [-2.3 + t * 2.3, 0, 0.2 - t * 0.2] as [number, number, number],
+        scale: 1.2,
+        rotationY: 3.2 + t * 2,
+        wireframe: t > 0.25,
         opacity: 1,
       };
     } else if (s < 0.833) {
-      // Section 5: Champion - center, realistic, nice size
+      // Section 5: Champion - center, smaller
       const t = (s - 0.667) / 0.167;
       return {
-        position: [0, 0, 0] as [number, number, number],
-        scale: 1.3 - t * 0.1,
-        rotationY: 5 + t * 1,
-        wireframe: t < 0.15,
+        position: [0, 0.1, 0] as [number, number, number],
+        scale: 1.0 - t * 0.05,
+        rotationY: 5.2 + t * 0.8,
+        wireframe: t < 0.1,
         opacity: 1,
       };
     } else {
@@ -96,10 +94,10 @@ const Ball = ({ scrollProgress }: BallProps) => {
       const t = (s - 0.833) / 0.167;
       return {
         position: [0, -t * 1.5, 0] as [number, number, number],
-        scale: Math.max(0.1, 1.2 - t * 1.2),
-        rotationY: 6 + t * 2,
+        scale: Math.max(0.05, 0.95 - t * 0.95),
+        rotationY: 6 + t * 1.5,
         wireframe: false,
-        opacity: Math.max(0, 1 - t * 2),
+        opacity: Math.max(0, 1 - t * 2.5),
       };
     }
   };
@@ -108,37 +106,34 @@ const Ball = ({ scrollProgress }: BallProps) => {
     if (!meshRef.current) return;
     const transform = getTransform(scrollProgress);
 
-    // Smooth lerp with delta-based factor for consistent speed
-    const lerpFactor = 1 - Math.pow(0.001, delta);
+    const lerpSpeed = 0.06;
 
     targetPos.current.set(...transform.position);
     targetScale.current.set(transform.scale, transform.scale, transform.scale);
-    targetRotY.current = transform.rotationY;
 
-    meshRef.current.position.lerp(targetPos.current, lerpFactor * 0.5);
-    meshRef.current.scale.lerp(targetScale.current, lerpFactor * 0.5);
+    meshRef.current.position.lerp(targetPos.current, lerpSpeed);
+    meshRef.current.scale.lerp(targetScale.current, lerpSpeed);
 
-    // Gentle idle rotation + scroll-driven rotation
+    // Gentle idle rotation
     meshRef.current.rotation.y += 0.002;
     meshRef.current.rotation.y = THREE.MathUtils.lerp(
       meshRef.current.rotation.y,
-      targetRotY.current,
-      lerpFactor * 0.1
+      transform.rotationY,
+      0.03
     );
 
-    // Update material properties smoothly
+    // Material updates
     const mat = meshRef.current.material as THREE.MeshPhysicalMaterial;
     if (mat) {
       mat.wireframe = transform.wireframe;
       mat.opacity = transform.opacity;
       mat.transparent = transform.opacity < 1;
-      mat.needsUpdate = false;
     }
   });
 
   return (
     <mesh ref={meshRef} material={material}>
-      <sphereGeometry args={[1, 64, 64]} />
+      <sphereGeometry args={[1, 128, 128]} />
     </mesh>
   );
 };
@@ -151,28 +146,32 @@ const Basketball3D = ({ scrollProgress }: Basketball3DProps) => {
   return (
     <div className="fixed inset-0 z-10 pointer-events-none">
       <Canvas
-        camera={{ position: [0, 0, 5.5], fov: 45 }}
+        camera={{ position: [0, 0, 5], fov: 45 }}
         gl={{
           antialias: true,
           alpha: true,
           powerPreference: 'high-performance',
           stencil: false,
           depth: true,
+          toneMapping: THREE.ACESFilmicToneMapping,
+          toneMappingExposure: 1.1,
         }}
         dpr={[1, 2]}
         style={{ background: 'transparent' }}
       >
-        <ambientLight intensity={0.4} />
-        <directionalLight position={[5, 5, 5]} intensity={1.0} />
-        <directionalLight position={[-3, 2, 4]} intensity={0.3} color="#FF8844" />
-        <pointLight position={[0, -3, 3]} intensity={0.2} />
+        {/* Soft realistic lighting */}
+        <ambientLight intensity={0.3} />
+        <directionalLight position={[4, 6, 4]} intensity={0.9} color="#fff5ee" />
+        <directionalLight position={[-2, 3, 5]} intensity={0.25} color="#ffaa77" />
+        <pointLight position={[0, -2, 3]} intensity={0.15} color="#ffffff" />
+        <hemisphereLight args={['#ffeedd', '#111111', 0.2]} />
         <Ball scrollProgress={scrollProgress} />
         <ContactShadows
-          position={[0, -2, 0]}
-          opacity={0.3}
-          scale={8}
-          blur={2.5}
-          far={4}
+          position={[0, -1.8, 0]}
+          opacity={0.25}
+          scale={6}
+          blur={3}
+          far={3}
         />
         <Environment preset="studio" />
       </Canvas>
