@@ -1,16 +1,39 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Suspense } from 'react';
+import Navigation from '@/components/Navigation';
+import Basketball3D from '@/components/Basketball3D';
+import HeroSection from '@/components/sections/HeroSection';
+import EliteControlSection from '@/components/sections/EliteControlSection';
+import PerfectFlightSection from '@/components/sections/PerfectFlightSection';
+import TechnicalSection from '@/components/sections/TechnicalSection';
+import ChampionSection from '@/components/sections/ChampionSection';
+import FooterSection from '@/components/sections/FooterSection';
+import { useSmoothScroll } from '@/hooks/useSmoothScroll';
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+const Index = () => {
+  const scrollProgress = useSmoothScroll();
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
+    <div className="relative bg-background">
+      {/* Noise overlay */}
+      <div className="noise-overlay" />
+
+      {/* Navigation */}
+      <Navigation />
+
+      {/* 3D Basketball - persistent across all sections */}
+      <Suspense fallback={null}>
+        <Basketball3D scrollProgress={scrollProgress} />
+      </Suspense>
+
+      {/* Sections */}
+      <HeroSection />
+      <EliteControlSection />
+      <PerfectFlightSection />
+      <TechnicalSection />
+      <ChampionSection />
+      <FooterSection />
     </div>
   );
 };
-
-const Index = PlaceholderIndex;
 
 export default Index;
