@@ -51,7 +51,7 @@ const HeroSection = () => {
       {/* Inner container */}
       <div className="absolute inset-[20px] bg-background rounded-[32px] overflow-hidden">
         {/* Content */}
-        <div className="relative h-full flex flex-col justify-between px-16 py-24">
+        <div className="relative z-20 h-full flex flex-col justify-between px-16 py-24">
           {/* Top left - promo video */}
           <div className="flex items-center gap-3 mt-8">
             <button className="w-10 h-10 rounded-full border border-foreground flex items-center justify-center hover:border-primary hover:text-primary transition-colors">
@@ -64,7 +64,7 @@ const HeroSection = () => {
           <div className="flex-1 flex items-center justify-center">
             <h1
               ref={titleRef}
-              className="font-display text-slam-gray text-[clamp(120px,18vw,280px)] leading-none tracking-tight select-none"
+                className="relative z-30 font-display text-slam-gray text-[clamp(120px,18vw,280px)] leading-none tracking-tight select-none"
             >
               SPALDING
             </h1>
