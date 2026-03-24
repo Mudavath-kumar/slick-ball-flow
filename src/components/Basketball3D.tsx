@@ -4,13 +4,6 @@ import { Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import basketballImg from '@/assets/basketball.jpg';
 
-// Elastic ease-out for intro bounce
-const easeOutElastic = (t: number): number => {
-  if (t === 0 || t === 1) return t;
-  const p = 0.4;
-  return Math.pow(2, -10 * t) * Math.sin((t - p / 4) * (2 * Math.PI) / p) + 1;
-};
-
 interface BallProps {
   scrollProgress: number;
 }
@@ -43,69 +36,65 @@ const Ball = ({ scrollProgress }: BallProps) => {
 
   const targetPos = useRef(new THREE.Vector3(0, 0, 0));
   const targetScale = useRef(new THREE.Vector3(1, 1, 1));
-  const introProgress = useRef(0);
 
   const getTransform = (progress: number) => {
     const s = progress;
 
     if (s < 0.167) {
-      // Section 1: Hero - small ball behind SPALDING text
-      const t = s / 0.167;
+      // Section 1: Hero - centered, modest size so SPALDING text visible
       return {
-        position: [0, -0.1, 0] as [number, number, number],
-        scale: 0.55,
-        rotationY: t * 0.5,
+        position: [0, -0.2, 0] as [number, number, number],
+        scale: 0.9,
+        rotationY: s / 0.167 * 0.5,
         wireframe: false,
         opacity: 1,
       };
     } else if (s < 0.333) {
-      // Section 2: Elite Control - ball slides FAR RIGHT, half off-screen
-      // Content is on LEFT side
+      // Section 2: Elite Control - content LEFT, ball RIGHT
       const t = (s - 0.167) / 0.167;
       return {
-        position: [3.2 + t * 0.8, -0.2, 0.5] as [number, number, number],
-        scale: 0.55 + t * 0.9,
+        position: [1.8 + t * 0.5, 0, t * 0.5] as [number, number, number],
+        scale: 1.0 + t * 0.4,
         rotationY: 0.5 + t * 1.2,
         wireframe: false,
         opacity: 1,
       };
     } else if (s < 0.5) {
-      // Section 3: Perfect Flight - ball slides FAR LEFT, half off-screen
-      // Content is on RIGHT side
+      // Section 3: Perfect Flight - content RIGHT, ball LEFT
       const t = (s - 0.333) / 0.167;
       return {
-        position: [4.0 - t * 8.0, -0.2, 0.5] as [number, number, number],
-        scale: 1.45 - t * 0.1,
+        position: [2.3 - t * 4.6, 0, 0.5 - t * 0.3] as [number, number, number],
+        scale: 1.4 - t * 0.2,
         rotationY: 1.7 + t * 1.5,
         wireframe: false,
         opacity: 1,
       };
     } else if (s < 0.667) {
-      // Section 4: Technical/Antenna - ball moves to CENTER
+      // Section 4: Technical - center, wireframe mode
       const t = (s - 0.5) / 0.167;
       return {
-        position: [-4.0 + t * 4.0, -0.1, 0] as [number, number, number],
-        scale: 1.35 - t * 0.35,
+        position: [-2.3 + t * 2.3, 0, 0.2 - t * 0.2] as [number, number, number],
+        scale: 1.2,
         rotationY: 3.2 + t * 2,
-        wireframe: t > 0.3,
+        wireframe: t > 0.25,
         opacity: 1,
       };
     } else if (s < 0.833) {
-      // Section 5: Champion - center, clean
+      // Section 5: Champion - center, smaller
       const t = (s - 0.667) / 0.167;
       return {
-        position: [0, 0, 0] as [number, number, number],
-        scale: 0.85 - t * 0.05,
+        position: [0, 0.1, 0] as [number, number, number],
+        scale: 1.0 - t * 0.05,
         rotationY: 5.2 + t * 0.8,
-        wireframe: t < 0.08,
+        wireframe: t < 0.1,
         opacity: 1,
       };
     } else {
-      // Section 6: Fade out downward
+      // Section 6: Fade out
       const t = (s - 0.833) / 0.167;
       return {
-        position: [0, -t * 2, 0] as [number, number, number],
-        scale: Math.max(0.05, 0.8 - t * 0.8),
+        position: [0, -t * 1.5, 0] as [number, number, number],
+        scale: Math.max(0.05, 0.95 - t * 0.95),
         rotationY: 6 + t * 1.5,
         wireframe: false,
         opacity: Math.max(0, 1 - t * 2.5),
@@ -115,25 +104,18 @@ const Ball = ({ scrollProgress }: BallProps) => {
 
   useFrame((_, delta) => {
     if (!meshRef.current) return;
-
-    // Intro animation: scale up from 0 with elastic bounce
-    if (introProgress.current < 1) {
-      introProgress.current = Math.min(1, introProgress.current + delta * 0.8);
-    }
-    const introScale = easeOutElastic(introProgress.current);
-
     const transform = getTransform(scrollProgress);
-    const lerpSpeed = 0.05;
+
+    const lerpSpeed = 0.06;
 
     targetPos.current.set(...transform.position);
-    const finalScale = transform.scale * introScale;
-    targetScale.current.set(finalScale, finalScale, finalScale);
+    targetScale.current.set(transform.scale, transform.scale, transform.scale);
 
     meshRef.current.position.lerp(targetPos.current, lerpSpeed);
     meshRef.current.scale.lerp(targetScale.current, lerpSpeed);
 
-    // Gentle idle rotation + scroll-driven rotation
-    meshRef.current.rotation.y += 0.003;
+    // Gentle idle rotation
+    meshRef.current.rotation.y += 0.002;
     meshRef.current.rotation.y = THREE.MathUtils.lerp(
       meshRef.current.rotation.y,
       transform.rotationY,
