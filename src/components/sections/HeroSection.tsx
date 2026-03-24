@@ -1,24 +1,19 @@
 import { useEffect, useRef } from 'react';
 import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import gsap from 'gsap';
+import SplitText from '@/components/SplitText';
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
   const priceRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
+  const frameRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const tl = gsap.timeline({ delay: 0.5 });
+    const tl = gsap.timeline({ delay: 3.2 });
 
-    // Split title animation
-    if (titleRef.current) {
-      tl.fromTo(
-        titleRef.current,
-        { y: 100, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: 'power3.out' },
-        0.2
-      );
+    if (frameRef.current) {
+      tl.fromTo(frameRef.current, { opacity: 0 }, { opacity: 1, duration: 0.6 }, 0);
     }
 
     if (priceRef.current) {
@@ -26,7 +21,7 @@ const HeroSection = () => {
         priceRef.current,
         { y: 30, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' },
-        0.8
+        0.6
       );
     }
 
@@ -35,7 +30,7 @@ const HeroSection = () => {
         ctaRef.current,
         { y: 20, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
-        1
+        0.9
       );
     }
   }, []);
@@ -46,7 +41,7 @@ const HeroSection = () => {
       className="relative h-screen w-full flex items-center justify-center overflow-hidden"
     >
       {/* Orange frame border */}
-      <div className="absolute inset-0 border-[20px] border-primary rounded-none z-20 pointer-events-none" />
+      <div ref={frameRef} className="absolute inset-0 border-[20px] border-primary rounded-none z-20 pointer-events-none" />
 
       {/* Inner container */}
       <div className="absolute inset-[20px] bg-background rounded-[32px] overflow-hidden">
@@ -62,12 +57,15 @@ const HeroSection = () => {
 
           {/* Main title */}
           <div className="flex-1 flex items-center justify-center">
-            <h1
-              ref={titleRef}
-                className="relative z-30 font-display text-slam-gray text-[clamp(120px,18vw,280px)] leading-none tracking-tight select-none"
+            <SplitText
+              as="h1"
+              className="relative z-30 font-display text-slam-gray text-[clamp(120px,18vw,280px)] leading-none tracking-tight select-none"
+              scrollTrigger={false}
+              delay={3.4}
+              stagger={0.06}
             >
               SPALDING
-            </h1>
+            </SplitText>
           </div>
 
           {/* Bottom row */}

@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 interface SplitTextProps {
   children: string;
   className?: string;
+  style?: React.CSSProperties;
   as?: 'h1' | 'h2' | 'h3' | 'p' | 'span';
   delay?: number;
   triggerStart?: string;
@@ -17,6 +18,7 @@ interface SplitTextProps {
 const SplitText = ({
   children,
   className = '',
+  style,
   as: Tag = 'h2',
   delay = 0,
   triggerStart = 'top 65%',
@@ -62,7 +64,7 @@ const SplitText = ({
     <Tag
       ref={containerRef as any}
       className={`${className} overflow-hidden`}
-      style={{ perspective: '600px' }}
+      style={{ perspective: '600px', ...style }}
     >
       {letters.map((char, i) => (
         <span
