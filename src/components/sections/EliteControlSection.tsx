@@ -1,32 +1,22 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitText from '@/components/SplitText';
+import { useCountUp } from '@/hooks/useCountUp';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const EliteControlSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const stat1Ref = useRef<HTMLDivElement>(null);
+  const stat2Ref = useRef<HTMLDivElement>(null);
+
+  const stat1 = useCountUp(100, stat1Ref, { suffix: '%' });
+  const stat2 = useCountUp(0.5, stat2Ref, { decimals: 1, suffix: 'mm' });
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        headlineRef.current,
-        { y: 80, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 60%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-
       if (statsRef.current) {
         gsap.fromTo(
           statsRef.current.children,
@@ -61,14 +51,14 @@ const EliteControlSection = () => {
           <span className="text-primary text-[10px] uppercase tracking-[2px] font-body font-semibold mb-4">
             Performance Metrics
           </span>
-          <h2 ref={headlineRef} className="font-display text-foreground text-7xl lg:text-8xl leading-none mb-6">
+          <SplitText as="h2" className="font-display text-foreground text-7xl lg:text-8xl leading-none mb-6">
             ELITE CONTROL
-          </h2>
+          </SplitText>
           <div className="w-10 h-0.5 bg-primary mb-10" />
 
           <div ref={statsRef} className="space-y-8">
-            <div>
-              <p className="text-foreground text-5xl font-display">100%</p>
+            <div ref={stat1Ref}>
+              <p className="text-foreground text-5xl font-display">{stat1}</p>
               <p className="text-muted-foreground text-[10px] uppercase tracking-[2px] font-body mt-1">
                 Microfiber Composite
               </p>
@@ -77,8 +67,8 @@ const EliteControlSection = () => {
               </p>
             </div>
 
-            <div>
-              <p className="text-foreground text-5xl font-display">0.5mm</p>
+            <div ref={stat2Ref}>
+              <p className="text-foreground text-5xl font-display">{stat2}</p>
               <p className="text-muted-foreground text-[10px] uppercase tracking-[2px] font-body mt-1">
                 Pebble Depth
               </p>

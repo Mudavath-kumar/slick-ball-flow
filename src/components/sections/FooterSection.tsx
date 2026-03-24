@@ -1,50 +1,29 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitText from '@/components/SplitText';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const FooterSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const defyRef = useRef<HTMLDivElement>(null);
-  const gravityRef = useRef<HTMLDivElement>(null);
+  const shapesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        defyRef.current,
-        { y: 60, opacity: 0, scale: 0.8 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1.2,
-          ease: 'power3.out',
+      // Parallax floating shapes
+      if (shapesRef.current) {
+        gsap.to(shapesRef.current.querySelectorAll('.float-shape'), {
+          y: -60,
+          ease: 'none',
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: 'top 60%',
-            toggleActions: 'play none none reverse',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 1.5,
           },
-        }
-      );
-
-      gsap.fromTo(
-        gravityRef.current,
-        { y: 80, opacity: 0, scale: 0.8 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          duration: 1.2,
-          delay: 0.2,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 60%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -55,26 +34,32 @@ const FooterSection = () => {
       ref={sectionRef}
       className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-hidden px-16"
     >
-      {/* Floating geometric shapes */}
-      <div className="absolute bottom-[20%] left-[10%] w-0 h-0 border-l-[30px] border-r-[30px] border-b-[52px] border-l-transparent border-r-transparent border-b-primary opacity-60" />
-      <div className="absolute top-[30%] right-[15%] w-6 h-6 bg-secondary rotate-45 opacity-40" />
-      <div className="absolute bottom-[35%] right-[25%] w-4 h-4 bg-muted rotate-12 opacity-30" />
+      {/* Parallax floating geometric shapes */}
+      <div ref={shapesRef}>
+        <div className="float-shape absolute bottom-[20%] left-[10%] w-0 h-0 border-l-[30px] border-r-[30px] border-b-[52px] border-l-transparent border-r-transparent border-b-primary opacity-60" />
+        <div className="float-shape absolute top-[30%] right-[15%] w-6 h-6 bg-secondary rotate-45 opacity-40 animate-[spin_12s_linear_infinite]" />
+        <div className="float-shape absolute bottom-[35%] right-[25%] w-4 h-4 bg-muted rotate-12 opacity-30 animate-[spin_8s_linear_infinite_reverse]" />
+        <div className="float-shape absolute top-[45%] left-[20%] w-3 h-3 border border-primary/40 rotate-45 animate-[spin_10s_linear_infinite]" />
+        <div className="float-shape absolute bottom-[30%] left-[35%] w-2 h-2 rounded-full bg-primary/30" />
+      </div>
 
       {/* Main typography */}
       <div className="text-center mb-24">
-        <div ref={defyRef}>
-          <h2 className="font-display text-[clamp(80px,10vw,120px)] leading-none text-transparent tracking-wide"
+        <div>
+          <SplitText
+            as="h2"
+            className="font-display text-[clamp(80px,10vw,120px)] leading-none text-transparent tracking-wide"
             style={{
               WebkitTextStroke: '2px hsl(var(--slam-gray))',
             }}
           >
             DEFY
-          </h2>
+          </SplitText>
         </div>
-        <div ref={gravityRef} className="flex items-baseline justify-center">
-          <h2 className="font-display text-[clamp(100px,12vw,140px)] leading-none text-foreground tracking-wide">
+        <div className="flex items-baseline justify-center">
+          <SplitText as="h2" className="font-display text-[clamp(100px,12vw,140px)] leading-none text-foreground tracking-wide" delay={0.15}>
             GRAVITY
-          </h2>
+          </SplitText>
           <span className="inline-block w-4 h-4 bg-primary ml-2 -mb-2" />
         </div>
       </div>

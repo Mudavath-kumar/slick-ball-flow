@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitText from '@/components/SplitText';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,22 +13,6 @@ const ChampionSection = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        titleRef.current,
-        { y: 60, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 60%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-
       gsap.fromTo(
         leftRef.current,
         { x: -40, opacity: 0 },
@@ -65,13 +50,10 @@ const ChampionSection = () => {
   }, []);
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden"
-    >
-      <h2 ref={titleRef} className="font-display text-foreground text-6xl lg:text-7xl mb-20 tracking-wide">
+    <section ref={sectionRef} className="relative h-screen w-full flex flex-col items-center justify-center overflow-hidden">
+      <SplitText as="h2" className="font-display text-foreground text-6xl lg:text-7xl mb-20 tracking-wide">
         THE CHAMPION
-      </h2>
+      </SplitText>
 
       <div className="w-full max-w-5xl mx-auto flex items-center justify-between px-16">
         {/* Left info */}

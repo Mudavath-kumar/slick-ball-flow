@@ -1,32 +1,22 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SplitText from '@/components/SplitText';
+import { useCountUp } from '@/hooks/useCountUp';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const PerfectFlightSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
+  const drag1Ref = useRef<HTMLDivElement>(null);
+  const rot1Ref = useRef<HTMLDivElement>(null);
+
+  const dragVal = useCountUp(0.85, drag1Ref, { decimals: 2 });
+  const rotVal = useCountUp(28.5, rot1Ref, { decimals: 1 });
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        headlineRef.current,
-        { y: 80, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 60%',
-            toggleActions: 'play none none reverse',
-          },
-        }
-      );
-
       if (statsRef.current) {
         gsap.fromTo(
           statsRef.current.children,
@@ -64,29 +54,29 @@ const PerfectFlightSection = () => {
           <span className="inline-block bg-secondary text-muted-foreground text-[10px] uppercase tracking-[2px] font-body px-3 py-1 rounded-full w-fit mb-4">
             Aerodynamics
           </span>
-          <h2 ref={headlineRef} className="font-display text-foreground text-7xl lg:text-8xl leading-none mb-8">
+          <SplitText as="h2" className="font-display text-foreground text-7xl lg:text-8xl leading-none mb-8">
             PERFECT FLIGHT
-          </h2>
+          </SplitText>
 
           <div ref={statsRef} className="space-y-8">
-            <div className="flex items-start gap-4">
+            <div ref={drag1Ref} className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-full border border-muted flex items-center justify-center flex-shrink-0">
-                <span className="text-foreground text-sm font-display">0.85</span>
+                <span className="text-foreground text-sm font-display">{dragVal}</span>
               </div>
               <div>
-                <p className="text-foreground text-3xl font-display">0.85</p>
+                <p className="text-foreground text-3xl font-display">{dragVal}</p>
                 <p className="text-muted-foreground text-[10px] uppercase tracking-[2px] font-body">
                   Drag Coefficient
                 </p>
               </div>
             </div>
 
-            <div className="flex items-start gap-4">
+            <div ref={rot1Ref} className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-full border border-muted flex items-center justify-center flex-shrink-0">
-                <span className="text-foreground text-sm font-display">28.5</span>
+                <span className="text-foreground text-sm font-display">{rotVal}</span>
               </div>
               <div>
-                <p className="text-foreground text-3xl font-display">28.5</p>
+                <p className="text-foreground text-3xl font-display">{rotVal}</p>
                 <p className="text-muted-foreground text-[10px] uppercase tracking-[2px] font-body">
                   Rotational Stability
                 </p>
