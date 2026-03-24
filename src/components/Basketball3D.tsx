@@ -4,6 +4,13 @@ import { Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import basketballImg from '@/assets/basketball.jpg';
 
+// Elastic ease-out for intro bounce
+const easeOutElastic = (t: number): number => {
+  if (t === 0 || t === 1) return t;
+  const p = 0.4;
+  return Math.pow(2, -10 * t) * Math.sin((t - p / 4) * (2 * Math.PI) / p) + 1;
+};
+
 interface BallProps {
   scrollProgress: number;
 }
