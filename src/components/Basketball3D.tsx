@@ -108,18 +108,25 @@ const Ball = ({ scrollProgress }: BallProps) => {
 
   useFrame((_, delta) => {
     if (!meshRef.current) return;
-    const transform = getTransform(scrollProgress);
 
-    const lerpSpeed = 0.06;
+    // Intro animation: scale up from 0 with elastic bounce
+    if (introProgress.current < 1) {
+      introProgress.current = Math.min(1, introProgress.current + delta * 0.8);
+    }
+    const introScale = easeOutElastic(introProgress.current);
+
+    const transform = getTransform(scrollProgress);
+    const lerpSpeed = 0.05;
 
     targetPos.current.set(...transform.position);
-    targetScale.current.set(transform.scale, transform.scale, transform.scale);
+    const finalScale = transform.scale * introScale;
+    targetScale.current.set(finalScale, finalScale, finalScale);
 
     meshRef.current.position.lerp(targetPos.current, lerpSpeed);
     meshRef.current.scale.lerp(targetScale.current, lerpSpeed);
 
-    // Gentle idle rotation
-    meshRef.current.rotation.y += 0.002;
+    // Gentle idle rotation + scroll-driven rotation
+    meshRef.current.rotation.y += 0.003;
     meshRef.current.rotation.y = THREE.MathUtils.lerp(
       meshRef.current.rotation.y,
       transform.rotationY,
