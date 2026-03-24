@@ -60,7 +60,7 @@ const PerfectFlightSection = () => {
         <div className="w-[60%]" />
 
         {/* Right side - text content */}
-        <div className="w-[40%] flex flex-col justify-center pl-12">
+        <div className="relative z-20 w-[40%] flex flex-col justify-center pl-12">
           <span className="inline-block bg-secondary text-muted-foreground text-[10px] uppercase tracking-[2px] font-body px-3 py-1 rounded-full w-fit mb-4">
             Aerodynamics
           </span>
