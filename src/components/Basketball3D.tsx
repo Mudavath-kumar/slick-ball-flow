@@ -36,65 +36,69 @@ const Ball = ({ scrollProgress }: BallProps) => {
 
   const targetPos = useRef(new THREE.Vector3(0, 0, 0));
   const targetScale = useRef(new THREE.Vector3(1, 1, 1));
+  const introProgress = useRef(0);
 
   const getTransform = (progress: number) => {
     const s = progress;
 
     if (s < 0.167) {
-      // Section 1: Hero - centered, modest size so SPALDING text visible
+      // Section 1: Hero - small ball behind SPALDING text
+      const t = s / 0.167;
       return {
-        position: [0, -0.2, 0] as [number, number, number],
-        scale: 0.9,
-        rotationY: s / 0.167 * 0.5,
+        position: [0, -0.1, 0] as [number, number, number],
+        scale: 0.55,
+        rotationY: t * 0.5,
         wireframe: false,
         opacity: 1,
       };
     } else if (s < 0.333) {
-      // Section 2: Elite Control - content LEFT, ball RIGHT
+      // Section 2: Elite Control - ball slides FAR RIGHT, half off-screen
+      // Content is on LEFT side
       const t = (s - 0.167) / 0.167;
       return {
-        position: [1.8 + t * 0.5, 0, t * 0.5] as [number, number, number],
-        scale: 1.0 + t * 0.4,
+        position: [3.2 + t * 0.8, -0.2, 0.5] as [number, number, number],
+        scale: 0.55 + t * 0.9,
         rotationY: 0.5 + t * 1.2,
         wireframe: false,
         opacity: 1,
       };
     } else if (s < 0.5) {
-      // Section 3: Perfect Flight - content RIGHT, ball LEFT
+      // Section 3: Perfect Flight - ball slides FAR LEFT, half off-screen
+      // Content is on RIGHT side
       const t = (s - 0.333) / 0.167;
       return {
-        position: [2.3 - t * 4.6, 0, 0.5 - t * 0.3] as [number, number, number],
-        scale: 1.4 - t * 0.2,
+        position: [4.0 - t * 8.0, -0.2, 0.5] as [number, number, number],
+        scale: 1.45 - t * 0.1,
         rotationY: 1.7 + t * 1.5,
         wireframe: false,
         opacity: 1,
       };
     } else if (s < 0.667) {
-      // Section 4: Technical - center, wireframe mode
+      // Section 4: Technical/Antenna - ball moves to CENTER
       const t = (s - 0.5) / 0.167;
       return {
-        position: [-2.3 + t * 2.3, 0, 0.2 - t * 0.2] as [number, number, number],
-        scale: 1.2,
+        position: [-4.0 + t * 4.0, -0.1, 0] as [number, number, number],
+        scale: 1.35 - t * 0.35,
         rotationY: 3.2 + t * 2,
-        wireframe: t > 0.25,
+        wireframe: t > 0.3,
         opacity: 1,
       };
     } else if (s < 0.833) {
-      // Section 5: Champion - center, smaller
+      // Section 5: Champion - center, clean
       const t = (s - 0.667) / 0.167;
       return {
-        position: [0, 0.1, 0] as [number, number, number],
-        scale: 1.0 - t * 0.05,
+        position: [0, 0, 0] as [number, number, number],
+        scale: 0.85 - t * 0.05,
         rotationY: 5.2 + t * 0.8,
-        wireframe: t < 0.1,
+        wireframe: t < 0.08,
         opacity: 1,
       };
     } else {
-      // Section 6: Fade out
+      // Section 6: Fade out downward
       const t = (s - 0.833) / 0.167;
       return {
-        position: [0, -t * 1.5, 0] as [number, number, number],
-        scale: Math.max(0.05, 0.95 - t * 0.95),
+        position: [0, -t * 2, 0] as [number, number, number],
+        scale: Math.max(0.05, 0.8 - t * 0.8),
         rotationY: 6 + t * 1.5,
         wireframe: false,
         opacity: Math.max(0, 1 - t * 2.5),
