@@ -57,7 +57,7 @@ const EliteControlSection = () => {
     >
       <div className="w-full max-w-7xl mx-auto px-16 flex">
         {/* Left side - text content */}
-        <div className="w-[40%] flex flex-col justify-center pr-12">
+        <div className="relative z-20 w-[40%] flex flex-col justify-center pr-12">
           <span className="text-primary text-[10px] uppercase tracking-[2px] font-body font-semibold mb-4">
             Performance Metrics
           </span>
