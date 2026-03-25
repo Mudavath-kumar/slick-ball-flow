@@ -82,7 +82,14 @@ const FooterSection = () => {
         </div>
 
         {/* CTA + Social */}
-        <div className="flex items-center justify-between mb-8">
+        {/* Footer links */}
+        <div className="flex items-center justify-between mb-6 flex-wrap gap-4">
+          <div className="flex items-center gap-6 text-sm font-body">
+            <a href="/products" className="text-muted-foreground hover:text-primary transition-colors">Products</a>
+            <a href="/customize" className="text-muted-foreground hover:text-primary transition-colors">Customize</a>
+            <a href="/about" className="text-muted-foreground hover:text-primary transition-colors">About</a>
+            <a href="/contact" className="text-muted-foreground hover:text-primary transition-colors">Contact</a>
+          </div>
           <div className="flex items-center gap-5">
             {['X', 'IG', 'YT'].map((icon) => (
               <button
@@ -93,10 +100,12 @@ const FooterSection = () => {
               </button>
             ))}
           </div>
+        </div>
 
-          <button className="bg-foreground text-background px-10 py-4 rounded font-body font-semibold text-sm tracking-wide hover:bg-primary hover:text-primary-foreground transition-all magnetic-btn">
+        <div className="flex items-center justify-between mb-8">
+          <a href="/products" className="bg-foreground text-background px-10 py-4 rounded font-body font-semibold text-sm tracking-wide hover:bg-primary hover:text-primary-foreground transition-all magnetic-btn">
             SHOP COLLECTION
-          </button>
+          </a>
         </div>
 
         {/* Copyright */}
