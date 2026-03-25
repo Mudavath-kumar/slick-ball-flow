@@ -105,7 +105,7 @@ const FooterSection = () => {
         <div className="flex items-center justify-between mb-8">
           <a href="/products" className="bg-foreground text-background px-10 py-4 rounded font-body font-semibold text-sm tracking-wide hover:bg-primary hover:text-primary-foreground transition-all magnetic-btn">
             SHOP COLLECTION
-          </button>
+          </a>
         </div>
 
         {/* Copyright */}
