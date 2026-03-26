@@ -43,9 +43,14 @@ const ProductCard = ({ product, index }: { product: Product; index: number }) =>
 
         {/* Product visual */}
         <div className="relative h-64 flex items-center justify-center bg-secondary/30 overflow-hidden">
-          <span className="text-8xl group-hover:scale-110 transition-transform duration-700">
-            {product.image}
-          </span>
+          <img
+            src={product.image}
+            alt={product.name}
+            loading="lazy"
+            width={512}
+            height={512}
+            className="w-44 h-44 object-contain group-hover:scale-110 group-hover:rotate-6 transition-all duration-700"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-card to-transparent opacity-60" />
         </div>
 
