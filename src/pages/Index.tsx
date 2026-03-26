@@ -5,6 +5,7 @@ import IntroSequence from '@/components/IntroSequence';
 import CustomCursor from '@/components/CustomCursor';
 import ScrollProgress from '@/components/ScrollProgress';
 import HeroSection from '@/components/sections/HeroSection';
+import BallShowcaseSection from '@/components/sections/BallShowcaseSection';
 import EliteControlSection from '@/components/sections/EliteControlSection';
 import PerfectFlightSection from '@/components/sections/PerfectFlightSection';
 import TechnicalSection from '@/components/sections/TechnicalSection';
@@ -41,6 +42,7 @@ const Index = () => {
 
       {/* Sections */}
       <HeroSection />
+      <BallShowcaseSection />
       <EliteControlSection />
       <PerfectFlightSection />
       <TechnicalSection />

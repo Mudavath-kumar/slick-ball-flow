@@ -16,6 +16,7 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeAccordion, setActiveAccordion] = useState<string | null>('features');
   const contentRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     if (contentRef.current) {
@@ -24,6 +25,19 @@ const ProductDetail = () => {
         { y: 40, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'power3.out' }
       );
+    }
+  }, [id]);
+
+  // Subtle float animation on hero image
+  useEffect(() => {
+    if (imgRef.current) {
+      gsap.to(imgRef.current, {
+        y: -10,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut',
+      });
     }
   }, [id]);
 
@@ -68,8 +82,17 @@ const ProductDetail = () => {
                   {product.badge}
                 </span>
               )}
-              <span className="text-[200px]">{product.image}</span>
-              <div className="absolute inset-0 bg-gradient-to-t from-card/50 to-transparent" />
+              <img
+                ref={imgRef}
+                src={product.image}
+                alt={product.name}
+                width={512}
+                height={512}
+                className="w-72 h-72 lg:w-96 lg:h-96 object-contain"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-card/50 to-transparent pointer-events-none" />
+              {/* Glow */}
+              <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-56 h-20 bg-primary/10 rounded-full blur-3xl" />
             </div>
           </div>
 
@@ -202,7 +225,14 @@ const ProductDetail = () => {
               <Link key={p.id} to={`/products/${p.id}`} className="group">
                 <div className="bg-card rounded-2xl border border-border overflow-hidden hover:border-primary/50 transition-all duration-500">
                   <div className="h-48 flex items-center justify-center bg-secondary/30">
-                    <span className="text-7xl group-hover:scale-110 transition-transform duration-700">{p.image}</span>
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      loading="lazy"
+                      width={512}
+                      height={512}
+                      className="w-32 h-32 object-contain group-hover:scale-110 transition-transform duration-700"
+                    />
                   </div>
                   <div className="p-5">
                     <p className="text-primary text-[9px] uppercase tracking-[2px] font-body font-semibold">{p.subtitle}</p>

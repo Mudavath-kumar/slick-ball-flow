@@ -62,7 +62,15 @@ const Ball = ({ scrollProgress }: BallProps) => {
         opacity: 0.98,
       },
       {
-        // Section 2: Elite Control - pushed right for left content visibility
+        // Section 2: Ball Showcase (horizontal scroll) - hide ball
+        position: [4, 0, -2],
+        scale: 0.3,
+        rotationY: 0.8,
+        wireframeMix: 0,
+        opacity: 0,
+      },
+      {
+        // Section 3: Elite Control - pushed right for left content visibility
         position: [2.45, -0.04, 0.75],
         scale: 1.46,
         rotationY: 1.35,
@@ -70,7 +78,7 @@ const Ball = ({ scrollProgress }: BallProps) => {
         opacity: 1,
       },
       {
-        // Section 3: Perfect Flight - moved further left to avoid text overlap
+        // Section 4: Perfect Flight - moved further left to avoid text overlap
         position: [-3.35, 0.02, 0.45],
         scale: 1.16,
         rotationY: 2.95,
@@ -78,7 +86,7 @@ const Ball = ({ scrollProgress }: BallProps) => {
         opacity: 1,
       },
       {
-        // Section 4: Technical scanner - small and centered
+        // Section 5: Technical scanner - small and centered
         position: [0, 0, 0.12],
         scale: 0.8,
         rotationY: 4.65,
@@ -86,7 +94,7 @@ const Ball = ({ scrollProgress }: BallProps) => {
         opacity: 1,
       },
       {
-        // Section 5: Champion - center and front-facing
+        // Section 6: Champion - center and front-facing
         position: [0, 0.1, 0],
         scale: 0.95,
         rotationY: 5.75,
@@ -94,7 +102,7 @@ const Ball = ({ scrollProgress }: BallProps) => {
         opacity: 1,
       },
       {
-        // Section 6 start
+        // Section 7 start
         position: [0, 0, 0],
         scale: 0.9,
         rotationY: 6.35,
@@ -102,7 +110,7 @@ const Ball = ({ scrollProgress }: BallProps) => {
         opacity: 1,
       },
       {
-        // Section 6 end: fade out
+        // Section 7 end: fade out
         position: [0, -1.4, 0],
         scale: 0.06,
         rotationY: 7.75,
