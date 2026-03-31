@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import Navigation from '@/components/Navigation';
 import CustomCursor from '@/components/CustomCursor';
 import { products } from '@/data/products';
+import { useCart } from '@/contexts/CartContext';
 
 const sizes = ['27.5"', '28.5"', '29.5"'];
 
