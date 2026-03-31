@@ -14,6 +14,7 @@ const ProductDetail = () => {
   const product = products.find(p => p.id === id);
   const [selectedSize, setSelectedSize] = useState('29.5"');
   const [selectedColor, setSelectedColor] = useState(0);
+  const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [activeAccordion, setActiveAccordion] = useState<string | null>('features');
   const contentRef = useRef<HTMLDivElement>(null);
