@@ -5,6 +5,7 @@ import gsap from 'gsap';
 import Navigation from '@/components/Navigation';
 import CustomCursor from '@/components/CustomCursor';
 import { products } from '@/data/products';
+import { useCart } from '@/contexts/CartContext';
 
 const sizes = ['27.5"', '28.5"', '29.5"'];
 
@@ -13,6 +14,7 @@ const ProductDetail = () => {
   const product = products.find(p => p.id === id);
   const [selectedSize, setSelectedSize] = useState('29.5"');
   const [selectedColor, setSelectedColor] = useState(0);
+  const { addItem } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [activeAccordion, setActiveAccordion] = useState<string | null>('features');
   const contentRef = useRef<HTMLDivElement>(null);
@@ -60,7 +62,7 @@ const ProductDetail = () => {
       <CustomCursor />
       <Navigation />
 
-      <div className="pt-28 pb-24 px-8 lg:px-16 max-w-7xl mx-auto">
+      <div className="pt-40 pb-24 px-8 lg:px-16 max-w-7xl mx-auto">
         {/* Breadcrumb */}
         <Link
           to="/products"
@@ -173,7 +175,10 @@ const ProductDetail = () => {
                 </button>
               </div>
 
-              <button className="flex-1 bg-primary text-primary-foreground py-4 rounded-lg font-body font-semibold text-sm tracking-wide hover:brightness-110 transition-all magnetic-btn flex items-center justify-center gap-2">
+              <button
+                onClick={() => { for (let i = 0; i < quantity; i++) addItem(product, selectedSize); }}
+                className="flex-1 bg-primary text-primary-foreground py-4 rounded-lg font-body font-semibold text-sm tracking-wide hover:brightness-110 transition-all magnetic-btn flex items-center justify-center gap-2"
+              >
                 <ShoppingCart size={18} />
                 ADD TO CART — ${(product.price * quantity).toFixed(2)}
               </button>
