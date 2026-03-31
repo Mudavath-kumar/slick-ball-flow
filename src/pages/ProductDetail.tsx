@@ -175,7 +175,10 @@ const ProductDetail = () => {
                 </button>
               </div>
 
-              <button className="flex-1 bg-primary text-primary-foreground py-4 rounded-lg font-body font-semibold text-sm tracking-wide hover:brightness-110 transition-all magnetic-btn flex items-center justify-center gap-2">
+              <button
+                onClick={() => { for (let i = 0; i < quantity; i++) addItem(product, selectedSize); }}
+                className="flex-1 bg-primary text-primary-foreground py-4 rounded-lg font-body font-semibold text-sm tracking-wide hover:brightness-110 transition-all magnetic-btn flex items-center justify-center gap-2"
+              >
                 <ShoppingCart size={18} />
                 ADD TO CART — ${(product.price * quantity).toFixed(2)}
               </button>
