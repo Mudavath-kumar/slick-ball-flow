@@ -1,22 +1,26 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, User, Menu, X } from 'lucide-react';
+import { useCart } from '@/contexts/CartContext';
 
 const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/products', label: 'Products' },
   { path: '/customize', label: 'Customize' },
+  { path: '/blog', label: 'Blog' },
+  { path: '/community', label: 'Community' },
   { path: '/about', label: 'About' },
-  { path: '/contact', label: 'Contacts' },
+  { path: '/contact', label: 'Contact' },
 ];
 
 const Navigation = () => {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { totalItems, setIsOpen } = useCart();
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 lg:px-10 py-5 backdrop-blur-md bg-background/60">
+      <nav className="fixed top-9 left-0 right-0 z-50 flex items-center justify-between px-6 lg:px-10 py-4 backdrop-blur-md bg-background/60 border-b border-border/30">
         <Link to="/" className="flex items-center gap-2">
           <div className="w-10 h-10 rounded-full border-2 border-foreground flex items-center justify-center hover:border-primary transition-colors">
             <div className="text-center leading-none font-display">
@@ -27,35 +31,39 @@ const Navigation = () => {
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden lg:flex items-center gap-6">
           {navLinks.map(link => (
             <Link
               key={link.path}
               to={link.path}
-              className={`text-sm font-body font-medium tracking-wide transition-colors ${
+              className={`relative text-xs font-body font-medium tracking-wide transition-colors py-1 ${
                 location.pathname === link.path
                   ? 'text-primary'
                   : 'text-muted-foreground hover:text-foreground'
               }`}
             >
               {link.label}
+              {location.pathname === link.path && (
+                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full" />
+              )}
             </Link>
           ))}
         </div>
 
         <div className="flex items-center gap-4">
-          <button className="text-foreground hover:text-primary transition-colors">
-            <User size={20} />
-          </button>
-          <Link to="/products" className="text-foreground hover:text-primary transition-colors relative">
-            <ShoppingCart size={20} />
-            <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-primary rounded-full text-[9px] text-primary-foreground flex items-center justify-center font-body font-bold">
-              0
-            </span>
+          <Link to="/account" className="text-foreground hover:text-primary transition-colors">
+            <User size={18} />
           </Link>
-          {/* Mobile menu toggle */}
+          <button onClick={() => setIsOpen(true)} className="text-foreground hover:text-primary transition-colors relative">
+            <ShoppingCart size={18} />
+            {totalItems > 0 && (
+              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-primary rounded-full text-[9px] text-primary-foreground flex items-center justify-center font-body font-bold">
+                {totalItems}
+              </span>
+            )}
+          </button>
           <button
-            className="md:hidden text-foreground hover:text-primary transition-colors"
+            className="lg:hidden text-foreground hover:text-primary transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
           >
             {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -65,19 +73,24 @@ const Navigation = () => {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8 md:hidden">
+        <div className="fixed inset-0 z-40 bg-background/95 backdrop-blur-lg flex flex-col items-center justify-center gap-6 lg:hidden">
           {navLinks.map(link => (
             <Link
               key={link.path}
               to={link.path}
               onClick={() => setMobileOpen(false)}
-              className={`font-display text-4xl tracking-wide transition-colors ${
+              className={`font-display text-3xl tracking-wide transition-colors ${
                 location.pathname === link.path ? 'text-primary' : 'text-foreground hover:text-primary'
               }`}
             >
               {link.label.toUpperCase()}
             </Link>
           ))}
+          <div className="flex gap-4 mt-6">
+            <Link to="/account" onClick={() => setMobileOpen(false)} className="px-6 py-3 rounded-lg border border-border text-foreground text-sm font-body font-medium hover:border-primary transition-colors">
+              Account
+            </Link>
+          </div>
         </div>
       )}
     </>
