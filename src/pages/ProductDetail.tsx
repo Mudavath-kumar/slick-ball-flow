@@ -60,7 +60,7 @@ const ProductDetail = () => {
       <CustomCursor />
       <Navigation />
 
-      <div className="pt-28 pb-24 px-8 lg:px-16 max-w-7xl mx-auto">
+      <div className="pt-40 pb-24 px-8 lg:px-16 max-w-7xl mx-auto">
         {/* Breadcrumb */}
         <Link
           to="/products"

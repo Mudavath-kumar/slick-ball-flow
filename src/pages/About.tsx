@@ -74,7 +74,7 @@ const About = () => {
       <Navigation />
 
       {/* Hero */}
-      <div ref={heroRef} className="pt-32 pb-16 px-8 lg:px-16 max-w-7xl mx-auto">
+      <div ref={heroRef} className="pt-40 pb-16 px-8 lg:px-16 max-w-7xl mx-auto">
         <div>
           <span className="text-primary text-[10px] uppercase tracking-[4px] font-body font-semibold">
             Our Story

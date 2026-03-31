@@ -28,7 +28,7 @@ const Contact = () => {
       <CustomCursor />
       <Navigation />
 
-      <div ref={contentRef} className="pt-32 pb-24 px-8 lg:px-16 max-w-7xl mx-auto">
+      <div ref={contentRef} className="pt-40 pb-24 px-8 lg:px-16 max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-16">
           <span className="text-primary text-[10px] uppercase tracking-[4px] font-body font-semibold">
