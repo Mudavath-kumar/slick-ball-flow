@@ -145,7 +145,7 @@ const Compare = () => {
                       VIEW <ArrowRight size={12} />
                     </Link>
                     <button
-                      onClick={() => addItem({ id: p.id, name: p.name, price: p.price, image: p.image, quantity: 1 })}
+                      onClick={() => addItem(p)}
                       className="inline-flex items-center justify-center gap-2 border border-border text-foreground px-4 py-2.5 rounded-lg font-body text-xs hover:border-primary transition-colors"
                     >
                       <ShoppingCart size={12} /> ADD TO CART
