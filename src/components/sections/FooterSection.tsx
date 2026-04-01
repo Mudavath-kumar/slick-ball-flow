@@ -26,7 +26,8 @@ const footerLinks = {
     { label: 'FAQ', to: '/contact' },
     { label: 'Shipping', to: '/contact' },
     { label: 'Returns', to: '/contact' },
-    { label: 'Size Guide', to: '/products' },
+    { label: 'Size Guide', to: '/size-finder' },
+    { label: 'Compare', to: '/compare' },
   ],
 };
 

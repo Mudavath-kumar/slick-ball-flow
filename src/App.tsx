@@ -15,6 +15,8 @@ import About from "./pages/About.tsx";
 import Blog from "./pages/Blog.tsx";
 import Account from "./pages/Account.tsx";
 import Community from "./pages/Community.tsx";
+import SizeFinder from "./pages/SizeFinder.tsx";
+import Compare from "./pages/Compare.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -39,6 +41,8 @@ const App = () => (
             <Route path="/blog/:articleId" element={<Blog />} />
             <Route path="/account" element={<Account />} />
             <Route path="/community" element={<Community />} />
+            <Route path="/size-finder" element={<SizeFinder />} />
+            <Route path="/compare" element={<Compare />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
