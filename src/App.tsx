@@ -41,6 +41,8 @@ const App = () => (
             <Route path="/blog/:articleId" element={<Blog />} />
             <Route path="/account" element={<Account />} />
             <Route path="/community" element={<Community />} />
+            <Route path="/size-finder" element={<SizeFinder />} />
+            <Route path="/compare" element={<Compare />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

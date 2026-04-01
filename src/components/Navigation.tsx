@@ -7,6 +7,8 @@ const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/products', label: 'Products' },
   { path: '/customize', label: 'Customize' },
+  { path: '/compare', label: 'Compare' },
+  { path: '/size-finder', label: 'Size Finder' },
   { path: '/blog', label: 'Blog' },
   { path: '/community', label: 'Community' },
   { path: '/about', label: 'About' },
