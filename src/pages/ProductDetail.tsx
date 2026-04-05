@@ -240,6 +240,66 @@ const ProductDetail = () => {
           </div>
         </div>
 
+        {/* Reviews Section */}
+        <div className="mt-24">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="font-display text-foreground text-4xl">REVIEWS</h2>
+            <div className="flex items-center gap-2">
+              <div className="flex">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} size={16} className={i < Math.round(productReviews.reduce((s, r) => s + r.rating, 0) / (productReviews.length || 1)) ? 'text-yellow-500 fill-yellow-500' : 'text-muted-foreground'} />
+                ))}
+              </div>
+              <span className="text-foreground text-sm font-body font-medium">
+                {productReviews.length > 0
+                  ? (productReviews.reduce((s, r) => s + r.rating, 0) / productReviews.length).toFixed(1)
+                  : 'N/A'}
+              </span>
+              <span className="text-muted-foreground text-xs font-body">({productReviews.length} reviews)</span>
+            </div>
+          </div>
+
+          {productReviews.length === 0 ? (
+            <div className="text-center py-16 bg-card rounded-2xl border border-border">
+              <Star size={32} className="text-muted-foreground/30 mx-auto mb-3" />
+              <p className="text-muted-foreground font-body text-sm">No reviews yet. Be the first!</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {productReviews.map((review, i) => (
+                <div key={i} className="p-6 rounded-2xl bg-card border border-border hover:border-primary/20 transition-all">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+                        <span className="text-primary font-display text-sm">{review.author.charAt(0)}</span>
+                      </div>
+                      <div>
+                        <p className="text-foreground text-sm font-body font-semibold">{review.author}</p>
+                        <div className="flex items-center gap-2">
+                          <div className="flex">
+                            {Array.from({ length: 5 }).map((_, j) => (
+                              <Star key={j} size={10} className={j < review.rating ? 'text-yellow-500 fill-yellow-500' : 'text-muted-foreground'} />
+                            ))}
+                          </div>
+                          {review.verified && (
+                            <span className="text-[9px] uppercase tracking-[1px] font-body text-green-400 font-semibold">✓ Verified</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <span className="text-muted-foreground text-xs font-body">{review.date}</span>
+                  </div>
+                  <h4 className="text-foreground text-sm font-body font-semibold mb-1">{review.title}</h4>
+                  <p className="text-muted-foreground text-sm font-body leading-relaxed mb-3">{review.body}</p>
+                  <button className="flex items-center gap-1.5 text-muted-foreground text-xs font-body hover:text-foreground transition-colors">
+                    <ThumbsUp size={12} /> Helpful ({review.helpful})
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
         {/* Related Products */}
         <div className="mt-24">
           <h2 className="font-display text-foreground text-4xl mb-8">YOU MAY ALSO LIKE</h2>
