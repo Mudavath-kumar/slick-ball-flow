@@ -6,6 +6,24 @@ import Navigation from '@/components/Navigation';
 import CustomCursor from '@/components/CustomCursor';
 import { products } from '@/data/products';
 import { useCart } from '@/contexts/CartContext';
+import { Star, ThumbsUp } from 'lucide-react';
+
+const reviews: Record<string, Array<{ author: string; rating: number; date: string; title: string; body: string; helpful: number; verified: boolean }>> = {
+  'spalding-tf-1000': [
+    { author: 'Coach_Martinez', rating: 5, date: '2024-03-01', title: 'Best indoor ball period', body: 'Been coaching 20 years and this is the best composite ball I\'ve used. Grip stays consistent even in humid gyms.', helpful: 34, verified: true },
+    { author: 'JayHoops22', rating: 5, date: '2024-02-15', title: 'Game changer', body: 'Upgraded from a rubber ball and the difference is night and day. Feels like butter.', helpful: 18, verified: true },
+    { author: 'BallerMike', rating: 4, date: '2024-01-20', title: 'Great but needs break-in', body: 'Takes about a week of play to fully break in but once it does, incredible feel.', helpful: 12, verified: false },
+  ],
+  'spalding-precision': [
+    { author: 'ProShooter_99', rating: 5, date: '2024-02-28', title: 'Perfect for shooting drills', body: 'Consistent bounce and true flight. My free throw percentage went up 8% since switching.', helpful: 27, verified: true },
+    { author: 'SarahBalls', rating: 4, date: '2024-02-10', title: 'Solid indoor ball', body: 'Great value for the price. Grip is excellent and it holds air well.', helpful: 9, verified: true },
+  ],
+  'spalding-street': [
+    { author: 'ConcreteKing', rating: 5, date: '2024-03-05', title: 'Survives anything', body: 'Played on rough asphalt for 3 months straight. Still looks almost new. Insane durability.', helpful: 41, verified: true },
+    { author: 'Venice_Baller', rating: 5, date: '2024-02-22', title: 'Best outdoor ball', body: 'The grip on hot concrete is unmatched. Colors pop too. Get compliments every time.', helpful: 23, verified: true },
+    { author: 'ParkHooper', rating: 4, date: '2024-01-15', title: 'Solid outdoor option', body: 'Good grip and durability. Slightly bouncier than I expected but you adapt quickly.', helpful: 7, verified: false },
+  ],
+};
 
 const sizes = ['27.5"', '28.5"', '29.5"'];
 
