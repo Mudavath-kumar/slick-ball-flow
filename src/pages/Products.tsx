@@ -200,6 +200,15 @@ const Products = () => {
               </span>
             )}
           </button>
+          <select
+            value={sortBy}
+            onChange={e => setSortBy(e.target.value)}
+            className="px-4 py-3 rounded-xl bg-secondary border border-border text-foreground text-sm font-body focus:outline-none focus:border-primary transition-colors"
+          >
+            {sortOptions.map(opt => (
+              <option key={opt.key} value={opt.key}>{opt.label}</option>
+            ))}
+          </select>
         </div>
 
         {/* Expandable filters */}
