@@ -14,6 +14,8 @@ import TechnicalSection from '@/components/sections/TechnicalSection';
 import VideoShowcaseSection from '@/components/sections/VideoShowcaseSection';
 import ComparisonSection from '@/components/sections/ComparisonSection';
 import StatsCounterSection from '@/components/sections/StatsCounterSection';
+import ProAthletesSection from '@/components/sections/ProAthletesSection';
+import UpcomingDropSection from '@/components/sections/UpcomingDropSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import InstagramSection from '@/components/sections/InstagramSection';
 import ChampionSection from '@/components/sections/ChampionSection';
@@ -44,6 +46,8 @@ const Index = () => {
       <PerfectFlightSection />
       <TechnicalSection />
       <VideoShowcaseSection />
+      <ProAthletesSection />
+      <UpcomingDropSection />
       <ComparisonSection />
       <StatsCounterSection />
       <TestimonialsSection />

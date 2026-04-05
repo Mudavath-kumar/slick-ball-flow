@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import Navigation from '@/components/Navigation';
 import CustomCursor from '@/components/CustomCursor';
 import BackToTop from '@/components/BackToTop';
-import { Users, MapPin, Trophy, MessageSquare, Heart, Share2, Camera, Star, ArrowRight } from 'lucide-react';
+import { Users, MapPin, Trophy, MessageSquare, Heart, Share2, Camera, Star, ArrowRight, Clock } from 'lucide-react';
 
 const courtSpots = [
   { city: 'Los Angeles', courts: 24, players: 1280, lat: '34°N' },
@@ -149,8 +149,41 @@ const Community = () => {
           </div>
         </div>
 
+        {/* Upcoming Events */}
+        <div className="mt-20 mb-20">
+          <h2 className="font-display text-foreground text-3xl mb-6">UPCOMING EVENTS</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {[
+              { name: 'Venice Beach 3v3 Tournament', date: 'Apr 15, 2026', location: 'Los Angeles, CA', spots: '12/32', type: 'Tournament' },
+              { name: 'Midnight Hoops NYC', date: 'Apr 22, 2026', location: 'New York, NY', spots: '48/100', type: 'Open Run' },
+              { name: 'SlamDunk Skills Camp', date: 'May 1–3, 2026', location: 'Chicago, IL', spots: '20/50', type: 'Camp' },
+            ].map((event, i) => (
+              <div key={i} className="p-6 rounded-xl bg-card border border-border hover:border-primary/30 transition-all group">
+                <span className="text-[10px] uppercase tracking-[2px] font-body font-semibold px-2 py-0.5 rounded-full bg-primary/10 text-primary mb-3 inline-block">
+                  {event.type}
+                </span>
+                <h3 className="font-display text-foreground text-xl mb-2">{event.name}</h3>
+                <div className="space-y-1 mb-4">
+                  <p className="text-muted-foreground text-xs font-body flex items-center gap-1.5">
+                    <Clock size={12} /> {event.date}
+                  </p>
+                  <p className="text-muted-foreground text-xs font-body flex items-center gap-1.5">
+                    <MapPin size={12} /> {event.location}
+                  </p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-muted-foreground text-[10px] font-body">{event.spots} spots filled</span>
+                  <button className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-xs font-body font-semibold hover:brightness-110 transition-all">
+                    REGISTER
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Cross-sell */}
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Link to="/products" className="group p-8 rounded-2xl bg-card border border-border hover:border-primary/40 transition-all flex items-center justify-between">
             <div>
               <h3 className="font-display text-foreground text-2xl mb-1">GEAR UP</h3>
