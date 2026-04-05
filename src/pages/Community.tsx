@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import Navigation from '@/components/Navigation';
 import CustomCursor from '@/components/CustomCursor';
 import BackToTop from '@/components/BackToTop';
-import { Users, MapPin, Trophy, MessageSquare, Heart, Share2, Camera, Star, ArrowRight } from 'lucide-react';
+import { Users, MapPin, Trophy, MessageSquare, Heart, Share2, Camera, Star, ArrowRight, Clock } from 'lucide-react';
 
 const courtSpots = [
   { city: 'Los Angeles', courts: 24, players: 1280, lat: '34°N' },
