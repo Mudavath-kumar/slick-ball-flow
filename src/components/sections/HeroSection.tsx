@@ -86,6 +86,7 @@ const HeroSection = () => {
             {/* CTA */}
             <button
               ref={ctaRef}
+              onClick={() => addItem(precisionBall)}
               className="bg-primary text-primary-foreground px-12 py-4 rounded font-body font-semibold text-base tracking-wide hover:brightness-110 transition-all magnetic-btn"
             >
               ADD TO CART
@@ -93,12 +94,12 @@ const HeroSection = () => {
 
             {/* Nav arrows */}
             <div className="flex items-center gap-3">
-              <button className="w-10 h-10 rounded-full border border-muted flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors">
+              <Link to="/products" className="w-10 h-10 rounded-full border border-muted flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors">
                 <ChevronLeft size={18} />
-              </button>
-              <button className="w-10 h-10 rounded-full border border-muted flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors">
+              </Link>
+              <Link to="/products" className="w-10 h-10 rounded-full border border-muted flex items-center justify-center text-muted-foreground hover:border-primary hover:text-primary transition-colors">
                 <ChevronRight size={18} />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
