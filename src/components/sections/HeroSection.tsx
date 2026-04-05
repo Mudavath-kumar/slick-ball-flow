@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import SplitText from '@/components/SplitText';
+import { products } from '@/data/products';
+import { useCart } from '@/contexts/CartContext';
 
 const HeroSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
