@@ -17,6 +17,7 @@ import Account from "./pages/Account.tsx";
 import Community from "./pages/Community.tsx";
 import SizeFinder from "./pages/SizeFinder.tsx";
 import Compare from "./pages/Compare.tsx";
+import Warranty from "./pages/Warranty.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
