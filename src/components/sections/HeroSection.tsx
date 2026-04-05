@@ -7,6 +7,8 @@ import { products } from '@/data/products';
 import { useCart } from '@/contexts/CartContext';
 
 const HeroSection = () => {
+  const { addItem } = useCart();
+  const precisionBall = products.find(p => p.id === 'spalding-precision')!;
   const sectionRef = useRef<HTMLDivElement>(null);
   const priceRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
