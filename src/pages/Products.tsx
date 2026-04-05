@@ -110,10 +110,19 @@ const ProductCard = ({ product, index }: { product: Product; index: number }) =>
   );
 };
 
+const sortOptions = [
+  { key: 'featured', label: 'Featured' },
+  { key: 'price-asc', label: 'Price: Low → High' },
+  { key: 'price-desc', label: 'Price: High → Low' },
+  { key: 'name', label: 'Name: A–Z' },
+  { key: 'rating', label: 'Top Rated' },
+];
+
 const Products = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
   const [search, setSearch] = useState('');
+  const [sortBy, setSortBy] = useState('featured');
   const [showFilters, setShowFilters] = useState(false);
   const titleRef = useRef<HTMLDivElement>(null);
 
@@ -129,9 +138,17 @@ const Products = () => {
       return p.name.toLowerCase().includes(q) || p.subtitle.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || p.category.includes(q);
     }
     return true;
+  }).sort((a, b) => {
+    switch (sortBy) {
+      case 'price-asc': return a.price - b.price;
+      case 'price-desc': return b.price - a.price;
+      case 'name': return a.name.localeCompare(b.name);
+      case 'rating': return (getRating(b.id) - getRating(a.id));
+      default: return 0;
+    }
   });
 
-  const clearAll = () => { setActiveCategory('all'); setPriceRange('all'); setSearch(''); };
+  const clearAll = () => { setActiveCategory('all'); setPriceRange('all'); setSearch(''); setSortBy('featured'); };
 
   useEffect(() => {
     if (titleRef.current) {
