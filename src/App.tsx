@@ -44,6 +44,7 @@ const App = () => (
             <Route path="/community" element={<Community />} />
             <Route path="/size-finder" element={<SizeFinder />} />
             <Route path="/compare" element={<Compare />} />
+            <Route path="/warranty" element={<Warranty />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
