@@ -56,7 +56,7 @@ const BallShowcaseSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative h-screen w-full overflow-hidden bg-background">
+    <section ref={sectionRef} className="relative z-20 h-screen w-full overflow-hidden bg-background">
       {/* Background accent */}
       <div className="absolute top-0 left-0 w-full h-px bg-border" />
       <div className="absolute bottom-0 left-0 w-full h-px bg-border" />

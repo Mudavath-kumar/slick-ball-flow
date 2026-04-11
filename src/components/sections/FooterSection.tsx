@@ -45,7 +45,7 @@ const FooterSection = () => {
   };
 
   return (
-    <footer className="relative w-full bg-card border-t border-border">
+    <footer className="relative z-20 w-full bg-card border-t border-border">
       {/* Newsletter */}
       <div className="px-8 lg:px-16 py-16 border-b border-border">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">

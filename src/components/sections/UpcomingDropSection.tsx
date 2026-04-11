@@ -62,7 +62,7 @@ const UpcomingDropSection = () => {
   };
 
   return (
-    <section ref={sectionRef} className="relative w-full py-28 overflow-hidden">
+    <section ref={sectionRef} className="relative z-20 w-full py-28 overflow-hidden">
       {/* Gradient bg */}
       <div className="absolute inset-0 bg-gradient-to-br from-primary/8 via-background to-background pointer-events-none" />
 

@@ -59,7 +59,7 @@ const ProAthletesSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative w-full py-28 overflow-hidden">
+    <section ref={sectionRef} className="relative z-20 w-full py-28 overflow-hidden">
       {/* Background accent */}
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-primary/3 via-transparent to-transparent pointer-events-none" />
 
