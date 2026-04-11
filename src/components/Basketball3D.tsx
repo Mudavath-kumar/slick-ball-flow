@@ -189,7 +189,7 @@ interface Basketball3DProps {
 
 const Basketball3D = ({ scrollProgress }: Basketball3DProps) => {
   return (
-    <div className="fixed inset-0 z-10 pointer-events-none">
+    <div className="fixed inset-0 z-[5] pointer-events-none">
       <Canvas
         camera={{ position: [0, 0, 5], fov: 42 }}
         gl={{
