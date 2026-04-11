@@ -18,14 +18,13 @@ const footerLinks = {
   ],
   Company: [
     { label: 'About Us', to: '/about' },
+    { label: 'Careers', to: '/careers' },
+    { label: 'Press', to: '/press' },
     { label: 'Contact', to: '/contact' },
-    { label: 'Careers', to: '/about' },
-    { label: 'Press', to: '/about' },
   ],
   Support: [
-    { label: 'FAQ', to: '/contact' },
-    { label: 'Shipping', to: '/contact' },
-    { label: 'Returns', to: '/contact' },
+    { label: 'FAQ', to: '/faq' },
+    { label: 'Shipping & Returns', to: '/shipping' },
     { label: 'Warranty', to: '/warranty' },
     { label: 'Size Guide', to: '/size-finder' },
     { label: 'Compare', to: '/compare' },
