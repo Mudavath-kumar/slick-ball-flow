@@ -41,7 +41,7 @@ const BrandBarSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative w-full py-16 border-y border-border overflow-hidden">
+    <section ref={sectionRef} className="relative z-20 w-full py-16 border-y border-border overflow-hidden">
       <div className="max-w-6xl mx-auto px-8 lg:px-16">
         <p className="text-center text-muted-foreground text-[10px] uppercase tracking-[4px] font-body font-semibold mb-10">
           Trusted by leagues worldwide

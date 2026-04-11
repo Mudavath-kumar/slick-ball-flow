@@ -41,7 +41,7 @@ const StatsCounterSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative w-full py-24 overflow-hidden">
+    <section ref={sectionRef} className="relative z-20 w-full py-24 overflow-hidden">
       {/* Diagonal accent */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/5 via-transparent to-transparent" />

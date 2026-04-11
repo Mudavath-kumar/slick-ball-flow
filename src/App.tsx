@@ -18,6 +18,10 @@ import Community from "./pages/Community.tsx";
 import SizeFinder from "./pages/SizeFinder.tsx";
 import Compare from "./pages/Compare.tsx";
 import Warranty from "./pages/Warranty.tsx";
+import FAQ from "./pages/FAQ.tsx";
+import Shipping from "./pages/Shipping.tsx";
+import Careers from "./pages/Careers.tsx";
+import Press from "./pages/Press.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -45,6 +49,10 @@ const App = () => (
             <Route path="/size-finder" element={<SizeFinder />} />
             <Route path="/compare" element={<Compare />} />
             <Route path="/warranty" element={<Warranty />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/shipping" element={<Shipping />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/press" element={<Press />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

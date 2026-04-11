@@ -18,14 +18,13 @@ const footerLinks = {
   ],
   Company: [
     { label: 'About Us', to: '/about' },
+    { label: 'Careers', to: '/careers' },
+    { label: 'Press', to: '/press' },
     { label: 'Contact', to: '/contact' },
-    { label: 'Careers', to: '/about' },
-    { label: 'Press', to: '/about' },
   ],
   Support: [
-    { label: 'FAQ', to: '/contact' },
-    { label: 'Shipping', to: '/contact' },
-    { label: 'Returns', to: '/contact' },
+    { label: 'FAQ', to: '/faq' },
+    { label: 'Shipping & Returns', to: '/shipping' },
     { label: 'Warranty', to: '/warranty' },
     { label: 'Size Guide', to: '/size-finder' },
     { label: 'Compare', to: '/compare' },
@@ -45,7 +44,7 @@ const FooterSection = () => {
   };
 
   return (
-    <footer className="relative w-full bg-card border-t border-border">
+    <footer className="relative z-20 w-full bg-card border-t border-border">
       {/* Newsletter */}
       <div className="px-8 lg:px-16 py-16 border-b border-border">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">

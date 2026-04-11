@@ -1,13 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Play, Volume2, VolumeX } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import videoAsset from '@/assets/basketball-showcase.mp4.asset.json';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const VideoShowcaseSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -30,8 +34,41 @@ const VideoShowcaseSection = () => {
     return () => ctx.revert();
   }, []);
 
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    const onTime = () => {
+      if (video.duration) setProgress((video.currentTime / video.duration) * 100);
+    };
+    const onEnd = () => setIsPlaying(false);
+    video.addEventListener('timeupdate', onTime);
+    video.addEventListener('ended', onEnd);
+    return () => {
+      video.removeEventListener('timeupdate', onTime);
+      video.removeEventListener('ended', onEnd);
+    };
+  }, []);
+
+  const togglePlay = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (isPlaying) {
+      video.pause();
+    } else {
+      video.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const toggleMute = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !isMuted;
+    setIsMuted(!isMuted);
+  };
+
   return (
-    <section ref={sectionRef} className="relative w-full py-28 overflow-hidden">
+    <section ref={sectionRef} className="relative w-full py-28 overflow-hidden z-20">
       <div className="max-w-6xl mx-auto px-8 lg:px-16">
         <div className="video-content">
           {/* Header */}
@@ -49,26 +86,29 @@ const VideoShowcaseSection = () => {
             </p>
           </div>
 
-          {/* Video placeholder */}
+          {/* Video player */}
           <div className="relative aspect-video rounded-3xl overflow-hidden bg-card border border-border group cursor-pointer">
-            {/* Gradient background simulating video thumbnail */}
-            <div className="absolute inset-0 bg-gradient-to-br from-secondary via-background to-secondary" />
-            
-            {/* Decorative basketball lines */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-64 h-64 rounded-full border border-primary/10" />
-              <div className="absolute w-48 h-48 rounded-full border border-primary/5" />
-              <div className="absolute w-[1px] h-64 bg-primary/10 rotate-45" />
-              <div className="absolute w-[1px] h-64 bg-primary/10 -rotate-45" />
-            </div>
+            <video
+              ref={videoRef}
+              src={videoAsset.url}
+              muted={isMuted}
+              loop
+              playsInline
+              preload="metadata"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
 
-            {/* Play button */}
-            <div className="absolute inset-0 flex items-center justify-center z-10">
-              <button
-                onClick={() => setIsPlaying(!isPlaying)}
-                className="w-24 h-24 rounded-full bg-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-[0_0_60px_hsl(var(--primary)/0.4)]"
-              >
-                <Play size={32} className="text-primary-foreground ml-1" fill="currentColor" />
+            {/* Play/pause overlay */}
+            <div
+              className={`absolute inset-0 flex items-center justify-center z-10 bg-background/30 transition-opacity duration-500 ${isPlaying ? 'opacity-0 hover:opacity-100' : 'opacity-100'}`}
+              onClick={togglePlay}
+            >
+              <button className="w-24 h-24 rounded-full bg-primary flex items-center justify-center group-hover:scale-110 transition-transform duration-500 shadow-[0_0_60px_hsl(var(--primary)/0.4)]">
+                {isPlaying ? (
+                  <Pause size={32} className="text-primary-foreground" fill="currentColor" />
+                ) : (
+                  <Play size={32} className="text-primary-foreground ml-1" fill="currentColor" />
+                )}
               </button>
             </div>
 
@@ -77,21 +117,21 @@ const VideoShowcaseSection = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-foreground text-sm font-body font-semibold">The Making of a Championship Ball</p>
-                  <p className="text-muted-foreground text-xs font-body">3:42 • Behind the Scenes</p>
+                  <p className="text-muted-foreground text-xs font-body">Behind the Scenes</p>
                 </div>
-                <button className="text-muted-foreground hover:text-primary transition-colors">
-                  {isPlaying ? <Volume2 size={18} /> : <VolumeX size={18} />}
+                <button onClick={(e) => { e.stopPropagation(); toggleMute(); }} className="text-muted-foreground hover:text-primary transition-colors">
+                  {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
                 </button>
               </div>
             </div>
 
             {/* Progress bar */}
-            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-border z-20">
-              <div className="h-full w-1/3 bg-primary rounded-full" />
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-border z-20">
+              <div className="h-full bg-primary rounded-full transition-all duration-200" style={{ width: `${progress}%` }} />
             </div>
           </div>
 
-          {/* Feature pills below video */}
+          {/* Feature pills */}
           <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
             {['Hand-Stitched', '32 Panels', 'Quality Tested', 'ISO Certified', '72hr Curing'].map(tag => (
               <span

@@ -45,7 +45,7 @@ const ComparisonSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative w-full py-28 overflow-hidden">
+    <section ref={sectionRef} className="relative z-20 w-full py-28 overflow-hidden">
       <div className="max-w-5xl mx-auto px-8 lg:px-16">
         {/* Header */}
         <div className="text-center mb-16">
