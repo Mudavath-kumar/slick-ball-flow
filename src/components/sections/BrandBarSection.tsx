@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+// z-20 on section to render above 3D ball
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
