@@ -31,6 +31,13 @@ const footerLinks = {
   ],
 };
 
+const socialLinks = [
+  { icon: Twitter, label: 'Twitter', href: 'https://twitter.com' },
+  { icon: Instagram, label: 'Instagram', href: 'https://instagram.com' },
+  { icon: Youtube, label: 'YouTube', href: 'https://youtube.com' },
+  { icon: Mail, label: 'Email', href: 'mailto:info@slamdunk.com' },
+];
+
 const FooterSection = () => {
   const [email, setEmail] = useState('');
   const [subscribed, setSubscribed] = useState(false);
@@ -96,29 +103,29 @@ const FooterSection = () => {
       <div className="px-8 lg:px-16 py-6 border-t border-border">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full border border-foreground flex items-center justify-center">
-              <div className="text-center leading-none font-display">
-                <span className="block text-[6px] tracking-wider">SLAM</span>
-                <span className="block text-[6px] tracking-wider">DUNK</span>
+            <Link to="/" className="flex items-center gap-2">
+              <div className="w-8 h-8 rounded-full border border-foreground flex items-center justify-center">
+                <div className="text-center leading-none font-display">
+                  <span className="block text-[6px] tracking-wider">SLAM</span>
+                  <span className="block text-[6px] tracking-wider">DUNK</span>
+                </div>
               </div>
-            </div>
+            </Link>
             <p className="text-muted-foreground text-xs font-body">© 2024 SlamDunk Inc. All rights reserved.</p>
           </div>
 
           <div className="flex items-center gap-4">
-            {[
-              { icon: Twitter, label: 'Twitter' },
-              { icon: Instagram, label: 'Instagram' },
-              { icon: Youtube, label: 'YouTube' },
-              { icon: Mail, label: 'Email' },
-            ].map(social => (
-              <button
+            {socialLinks.map(social => (
+              <a
                 key={social.label}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label={social.label}
                 className="w-9 h-9 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-primary hover:border-primary transition-all"
               >
                 <social.icon size={14} />
-              </button>
+              </a>
             ))}
           </div>
         </div>
