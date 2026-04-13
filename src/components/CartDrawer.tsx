@@ -1,9 +1,10 @@
 import { X, Minus, Plus, ShoppingBag, Trash2 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
 
 const CartDrawer = () => {
   const { items, isOpen, setIsOpen, removeItem, updateQuantity, totalItems, totalPrice, clearCart } = useCart();
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
 
@@ -83,7 +84,10 @@ const CartDrawer = () => {
                 <p className="text-foreground font-display text-3xl">${totalPrice.toFixed(2)}</p>
               </div>
             </div>
-            <button className="w-full bg-primary text-primary-foreground py-4 rounded-xl font-body font-semibold text-sm tracking-wide hover:brightness-110 transition-all">
+            <button
+              onClick={() => { setIsOpen(false); navigate('/checkout'); }}
+              className="w-full bg-primary text-primary-foreground py-4 rounded-xl font-body font-semibold text-sm tracking-wide hover:brightness-110 transition-all"
+            >
               CHECKOUT
             </button>
             <p className="text-center text-muted-foreground text-[10px] font-body">Free shipping on orders over $50</p>

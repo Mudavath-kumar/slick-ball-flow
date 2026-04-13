@@ -6,6 +6,7 @@ import { useCart } from '@/contexts/CartContext';
 const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/products', label: 'Products' },
+  { path: '/deals', label: 'Deals' },
   { path: '/customize', label: 'Customize' },
   { path: '/compare', label: 'Compare' },
   { path: '/size-finder', label: 'Size Finder' },
