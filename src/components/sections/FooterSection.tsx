@@ -5,6 +5,7 @@ import { useState } from 'react';
 const footerLinks = {
   Shop: [
     { label: 'All Products', to: '/products' },
+    { label: 'Deals & Bundles', to: '/deals' },
     { label: 'Indoor Balls', to: '/products' },
     { label: 'Outdoor Balls', to: '/products' },
     { label: 'Customize', to: '/customize' },
