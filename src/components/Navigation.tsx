@@ -21,6 +21,7 @@ const Navigation = () => {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const { totalItems, setIsOpen } = useCart();
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <>
@@ -54,7 +55,10 @@ const Navigation = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <button onClick={toggleTheme} className="text-foreground hover:text-primary transition-colors" title="Toggle theme">
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
           <Link to="/account" className="text-foreground hover:text-primary transition-colors">
             <User size={18} />
           </Link>
