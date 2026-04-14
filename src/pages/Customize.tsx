@@ -26,6 +26,97 @@ const materials = [
 
 const engravings = ['None', 'Name', 'Number', 'Logo'];
 
+const RealisticBall = ({ color, engravingText, showEngraving, rotation }: { color: string; engravingText: string; showEngraving: boolean; rotation: number }) => {
+  // Derive highlight/shadow colors from the base
+  const darken = (hex: string, amt: number) => {
+    const num = parseInt(hex.replace('#', ''), 16);
+    const r = Math.max(0, (num >> 16) - amt);
+    const g = Math.max(0, ((num >> 8) & 0x00FF) - amt);
+    const b = Math.max(0, (num & 0x0000FF) - amt);
+    return `rgb(${r},${g},${b})`;
+  };
+  const lighten = (hex: string, amt: number) => {
+    const num = parseInt(hex.replace('#', ''), 16);
+    const r = Math.min(255, (num >> 16) + amt);
+    const g = Math.min(255, ((num >> 8) & 0x00FF) + amt);
+    const b = Math.min(255, (num & 0x0000FF) + amt);
+    return `rgb(${r},${g},${b})`;
+  };
+
+  return (
+    <div className="relative w-72 h-72 lg:w-[400px] lg:h-[400px]" style={{ transform: `rotate(${rotation}deg)` }}>
+      <svg viewBox="0 0 400 400" className="w-full h-full drop-shadow-2xl">
+        <defs>
+          {/* Main sphere gradient */}
+          <radialGradient id="ballGrad" cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stopColor={lighten(color, 80)} />
+            <stop offset="25%" stopColor={lighten(color, 30)} />
+            <stop offset="55%" stopColor={color} />
+            <stop offset="85%" stopColor={darken(color, 60)} />
+            <stop offset="100%" stopColor={darken(color, 100)} />
+          </radialGradient>
+          {/* Specular highlight */}
+          <radialGradient id="specular" cx="32%" cy="25%" r="25%">
+            <stop offset="0%" stopColor="white" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="white" stopOpacity="0" />
+          </radialGradient>
+          {/* Ambient light */}
+          <radialGradient id="rimLight" cx="75%" cy="70%" r="50%">
+            <stop offset="0%" stopColor="transparent" />
+            <stop offset="70%" stopColor="transparent" />
+            <stop offset="100%" stopColor={lighten(color, 20)} stopOpacity="0.3" />
+          </radialGradient>
+          {/* Pebble texture */}
+          <filter id="pebble">
+            <feTurbulence type="turbulence" baseFrequency="0.8" numOctaves="4" seed="5" result="noise" />
+            <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise" />
+            <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" />
+          </filter>
+          {/* Shadow */}
+          <radialGradient id="shadow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="black" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="black" stopOpacity="0" />
+          </radialGradient>
+          <clipPath id="ballClip"><circle cx="200" cy="200" r="170" /></clipPath>
+        </defs>
+
+        {/* Drop shadow */}
+        <ellipse cx="200" cy="380" rx="120" ry="15" fill="url(#shadow)" />
+
+        {/* Main ball */}
+        <circle cx="200" cy="200" r="170" fill="url(#ballGrad)" filter="url(#pebble)" />
+
+        {/* Seam lines - realistic curved */}
+        <g clipPath="url(#ballClip)" strokeLinecap="round">
+          {/* Horizontal seam */}
+          <path d="M 30 200 Q 100 180, 200 195 Q 300 210, 370 200" fill="none" stroke={darken(color, 80)} strokeWidth="2.5" opacity="0.7" />
+          {/* Vertical seam */}
+          <path d="M 200 30 Q 180 100, 195 200 Q 210 300, 200 370" fill="none" stroke={darken(color, 80)} strokeWidth="2.5" opacity="0.7" />
+          {/* Channel grooves - thicker dark lines alongside seams */}
+          <path d="M 30 200 Q 100 180, 200 195 Q 300 210, 370 200" fill="none" stroke={darken(color, 50)} strokeWidth="5" opacity="0.15" />
+          <path d="M 200 30 Q 180 100, 195 200 Q 210 300, 200 370" fill="none" stroke={darken(color, 50)} strokeWidth="5" opacity="0.15" />
+          {/* Secondary curved seam */}
+          <path d="M 80 80 Q 150 150, 200 200 Q 250 250, 320 320" fill="none" stroke={darken(color, 80)} strokeWidth="2" opacity="0.5" />
+          <path d="M 320 80 Q 250 150, 200 200 Q 150 250, 80 320" fill="none" stroke={darken(color, 80)} strokeWidth="2" opacity="0.5" />
+        </g>
+
+        {/* Specular highlight */}
+        <circle cx="200" cy="200" r="170" fill="url(#specular)" />
+        {/* Rim light */}
+        <circle cx="200" cy="200" r="170" fill="url(#rimLight)" />
+
+        {/* Brand text */}
+        <text x="200" y="170" textAnchor="middle" fontFamily="'Bebas Neue', sans-serif" fontSize="28" fill={lighten(color, 100)} opacity="0.25" letterSpacing="6">SLAM DUNK</text>
+
+        {/* Engraving */}
+        {showEngraving && engravingText && (
+          <text x="200" y="230" textAnchor="middle" fontFamily="'Bebas Neue', sans-serif" fontSize="22" fill={lighten(color, 120)} opacity="0.6" letterSpacing="3">{engravingText.toUpperCase()}</text>
+        )}
+      </svg>
+    </div>
+  );
+};
+
 const Customize = () => {
   const [selectedColor, setSelectedColor] = useState(0);
   const [selectedMaterial, setSelectedMaterial] = useState(0);
@@ -33,8 +124,8 @@ const Customize = () => {
   const [engravingText, setEngravingText] = useState('');
   const [selectedSize, setSelectedSize] = useState(2);
   const [added, setAdded] = useState(false);
+  const [rotation, setRotation] = useState(0);
   const contentRef = useRef<HTMLDivElement>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
   const { addItem } = useCart();
 
   const sizes = ['Mini (22")', 'Youth (27.5")', 'Official (29.5")'];
@@ -49,11 +140,7 @@ const Customize = () => {
     }
   }, []);
 
-  useEffect(() => {
-    if (previewRef.current) {
-      gsap.to(previewRef.current, { scale: 0.95, duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.inOut' });
-    }
-  }, [selectedColor, selectedMaterial]);
+  const handleRotate = () => setRotation(prev => prev + 45);
 
   const handleAddToCart = () => {
     const customProduct = {
@@ -90,39 +177,29 @@ const Customize = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-          {/* Left - Preview */}
+          {/* Left - Realistic Preview */}
           <div className="flex flex-col items-center justify-center">
-            <div
-              ref={previewRef}
-              className="relative w-80 h-80 rounded-full flex items-center justify-center border-2 border-border"
-              style={{ backgroundColor: panelColors[selectedColor].hex + '15' }}
-            >
+            <div className="relative">
+              {/* Ambient glow behind ball */}
               <div
-                className="w-56 h-56 rounded-full shadow-2xl flex items-center justify-center relative overflow-hidden"
+                className="absolute inset-0 rounded-full blur-3xl opacity-20 scale-75"
                 style={{ backgroundColor: panelColors[selectedColor].hex }}
-              >
-                <div className="absolute inset-0 rounded-full" style={{
-                  background: `
-                    linear-gradient(0deg, transparent 48%, rgba(0,0,0,0.2) 49%, rgba(0,0,0,0.2) 51%, transparent 52%),
-                    linear-gradient(90deg, transparent 48%, rgba(0,0,0,0.2) 49%, rgba(0,0,0,0.2) 51%, transparent 52%)
-                  `
-                }} />
-                <div className="absolute inset-0 rounded-full opacity-20" style={{
-                  backgroundImage: 'radial-gradient(circle, rgba(0,0,0,0.15) 1px, transparent 1px)',
-                  backgroundSize: '4px 4px',
-                }} />
-                {engravingText && selectedEngraving > 0 && (
-                  <span className="relative z-10 font-display text-white/80 text-2xl tracking-wide">{engravingText}</span>
-                )}
-              </div>
-              <div className="absolute inset-0 rounded-full border border-primary/20 animate-[spin_12s_linear_infinite]" />
+              />
+              <RealisticBall
+                color={panelColors[selectedColor].hex}
+                engravingText={engravingText}
+                showEngraving={selectedEngraving > 0}
+                rotation={rotation}
+              />
             </div>
 
-            <div className="flex items-center gap-3 mt-8">
+            <div className="flex items-center gap-3 mt-6">
               <p className="text-muted-foreground text-xs font-body">
                 {panelColors[selectedColor].name} • {materials[selectedMaterial].name} • {sizes[selectedSize]}
               </p>
-              <button className="text-muted-foreground hover:text-primary transition-colors"><RotateCw size={14} /></button>
+              <button onClick={handleRotate} className="text-muted-foreground hover:text-primary transition-colors">
+                <RotateCw size={14} />
+              </button>
             </div>
 
             {/* Price summary */}
@@ -164,7 +241,7 @@ const Customize = () => {
                       selectedColor === i ? 'bg-secondary border border-primary/50' : 'hover:bg-secondary/50'
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-full border-2 transition-all ${selectedColor === i ? 'border-primary scale-110' : 'border-border'}`} style={{ backgroundColor: color.hex }} />
+                    <div className={`w-8 h-8 rounded-full border-2 transition-all shadow-md ${selectedColor === i ? 'border-primary scale-110 ring-2 ring-primary/30' : 'border-border'}`} style={{ backgroundColor: color.hex }} />
                     <span className="text-[10px] text-muted-foreground font-body">{color.name}</span>
                   </button>
                 ))}
