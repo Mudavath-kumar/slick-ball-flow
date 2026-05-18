@@ -25,7 +25,11 @@ import Careers from "./pages/Careers.tsx";
 import Press from "./pages/Press.tsx";
 import Checkout from "./pages/Checkout.tsx";
 import Deals from "./pages/Deals.tsx";
+import Lookbook from "./pages/Lookbook.tsx";
+import Training from "./pages/Training.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import RouteLoader from "@/components/RouteLoader";
+import CommandPalette from "@/components/CommandPalette";
 
 const queryClient = new QueryClient();
 
@@ -37,8 +41,10 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <RouteLoader />
           <AnnouncementBar />
           <CartDrawer />
+          <CommandPalette />
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/products" element={<Products />} />
@@ -59,6 +65,8 @@ const App = () => (
             <Route path="/press" element={<Press />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/deals" element={<Deals />} />
+            <Route path="/lookbook" element={<Lookbook />} />
+            <Route path="/training" element={<Training />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

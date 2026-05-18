@@ -7,10 +7,11 @@ import { useTheme } from '@/contexts/ThemeContext';
 const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/products', label: 'Products' },
+  { path: '/lookbook', label: 'Lookbook' },
+  { path: '/training', label: 'Training' },
   { path: '/deals', label: 'Deals' },
   { path: '/customize', label: 'Customize' },
   { path: '/compare', label: 'Compare' },
-  { path: '/size-finder', label: 'Size Finder' },
   { path: '/blog', label: 'Blog' },
   { path: '/community', label: 'Community' },
   { path: '/about', label: 'About' },
