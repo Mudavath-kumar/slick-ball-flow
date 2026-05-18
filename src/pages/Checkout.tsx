@@ -163,6 +163,7 @@ const Checkout = () => {
   if (orderPlaced) {
     return (
       <div className="relative bg-background min-h-screen">
+        <Confetti />
         <div className="noise-overlay" />
         <CustomCursor />
         <Navigation />
