@@ -7,10 +7,11 @@ import { useTheme } from '@/contexts/ThemeContext';
 const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/products', label: 'Products' },
+  { path: '/lookbook', label: 'Lookbook' },
+  { path: '/training', label: 'Training' },
   { path: '/deals', label: 'Deals' },
   { path: '/customize', label: 'Customize' },
   { path: '/compare', label: 'Compare' },
-  { path: '/size-finder', label: 'Size Finder' },
   { path: '/blog', label: 'Blog' },
   { path: '/community', label: 'Community' },
   { path: '/about', label: 'About' },
@@ -56,6 +57,14 @@ const Navigation = () => {
         </div>
 
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', metaKey: true }))}
+            className="hidden md:inline-flex items-center gap-2 px-2.5 py-1 rounded-md border border-border text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors text-[10px] font-body"
+            title="Open command palette"
+          >
+            <span>Search</span>
+            <kbd className="border border-border rounded px-1 text-[9px]">⌘K</kbd>
+          </button>
           <button onClick={toggleTheme} className="text-foreground hover:text-primary transition-colors" title="Toggle theme">
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
