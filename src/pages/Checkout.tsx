@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, CreditCard, Truck, Shield, Check, Lock, Package, QrCode, Wifi } from 'lucide-react';
 import Navigation from '@/components/Navigation';
 import CustomCursor from '@/components/CustomCursor';
+import Confetti from '@/components/Confetti';
 import { useCart } from '@/contexts/CartContext';
 
 const shippingOptions = [
