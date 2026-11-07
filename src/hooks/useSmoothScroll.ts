@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import Lenis from '@studio-freight/lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 
 export const useSmoothScroll = () => {
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const scrollProgress = useRef(0);
 
   const initScroll = useCallback(() => {
     const lenis = new Lenis({
@@ -17,7 +17,8 @@ export const useSmoothScroll = () => {
     });
 
     const onScroll = (e: { progress: number }) => {
-      setScrollProgress(e.progress);
+      scrollProgress.current = e.progress;
+      document.documentElement.style.setProperty('--scroll-progress', String(e.progress));
       ScrollTrigger.update();
     };
 

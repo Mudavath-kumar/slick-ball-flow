@@ -1,11 +1,11 @@
-import { useRef, useMemo } from 'react';
+import { MutableRefObject, useRef, useMemo } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
 import { Environment, ContactShadows } from '@react-three/drei';
 import * as THREE from 'three';
 import basketballImg from '@/assets/basketball.jpg';
 
 interface BallProps {
-  scrollProgress: number;
+  scrollProgress: MutableRefObject<number>;
 }
 
 interface BallState {
@@ -22,7 +22,7 @@ const Ball = ({ scrollProgress }: BallProps) => {
   const targetPos = useRef(new THREE.Vector3(0, 0, 0));
   const targetScale = useRef(new THREE.Vector3(1, 1, 1));
   const smoothRotationY = useRef(0.2);
-  const previousProgress = useRef(scrollProgress);
+  const previousProgress = useRef(scrollProgress.current);
   const wireframeMix = useRef(0);
 
   // Configure texture for realism
@@ -149,10 +149,11 @@ const Ball = ({ scrollProgress }: BallProps) => {
 
   useFrame((_, delta) => {
     if (!meshRef.current) return;
-    const transform = getTransform(scrollProgress);
+    const currentProgress = scrollProgress.current;
+    const transform = getTransform(currentProgress);
     const smooth = 1 - Math.exp(-7 * delta);
-    const scrollVelocity = scrollProgress - previousProgress.current;
-    previousProgress.current = scrollProgress;
+    const scrollVelocity = currentProgress - previousProgress.current;
+    previousProgress.current = currentProgress;
 
     targetPos.current.set(...transform.position);
     targetScale.current.set(transform.scale, transform.scale, transform.scale);
@@ -178,13 +179,13 @@ const Ball = ({ scrollProgress }: BallProps) => {
 
   return (
     <mesh ref={meshRef} material={material}>
-      <sphereGeometry args={[1, 128, 128]} />
+      <sphereGeometry args={[1, 64, 64]} />
     </mesh>
   );
 };
 
 interface Basketball3DProps {
-  scrollProgress: number;
+  scrollProgress: MutableRefObject<number>;
 }
 
 const Basketball3D = ({ scrollProgress }: Basketball3DProps) => {
@@ -201,7 +202,7 @@ const Basketball3D = ({ scrollProgress }: Basketball3DProps) => {
           toneMapping: THREE.ACESFilmicToneMapping,
           toneMappingExposure: 1.1,
         }}
-        dpr={[1, 1.75]}
+        dpr={[1, 1.5]}
         style={{ background: 'transparent' }}
       >
         {/* Soft realistic lighting */}
