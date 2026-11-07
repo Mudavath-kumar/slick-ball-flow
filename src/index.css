@@ -169,12 +169,8 @@
 }
 
 /* Magnetic button */
-.magnetic-btn {
-  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
 /* Hide default cursor on desktop */
-@media (pointer: fine) {
+@media (hover: hover) and (pointer: fine) and (min-width: 768px) {
   * {
     cursor: none !important;
   }
